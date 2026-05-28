@@ -236,11 +236,11 @@ int LongestSubarrayWithSumK(vector<int> v, int k)
     int maxlen = 0;
     while (right < v.size())
     {
-            sum += v[right];
-            right++;
-            len += 1;
-        
-        if(sum>k)
+        sum += v[right];
+        right++;
+        len += 1;
+
+        if (sum > k)
         {
             sum -= v[left];
             left++;
@@ -251,9 +251,153 @@ int LongestSubarrayWithSumK(vector<int> v, int k)
     return maxlen;
 }
 
+vector<int> twoSum(vector<int> v, int target)
+{
+    vector<int> out;
+    sort(v.begin(), v.end());
+    int left = 0;
+    int right = v.size() - 1;
+    int sum = 0;
+    while (left < right)
+    {
+        sum = v[left] + v[right];
+        if (sum == target)
+        {
+            out.push_back(v[left]);
+            out.push_back(v[right]);
+            break;
+        }
+        if (sum > target)
+        {
+            right--;
+        }
+        else
+        {
+            left++;
+        }
+    }
+    return out;
+}
+
+void SortArraysOf0_1_2(vector<int> &v)
+{
+    int left = 0;
+    int right = v.size() - 1;
+    int mid = 0;
+    while (mid <= right)
+    {
+        if (v[mid] == 0)
+        {
+            swap(v[mid], v[left]);
+            left++;
+            mid++;
+        }
+
+        else if (v[mid] == 1)
+        {
+            mid++;
+        }
+
+        else if (v[mid] == 2)
+        {
+            swap(v[mid], v[right]);
+            right--;
+        }
+    }
+}
+
+int MajorityElement(vector<int> v)
+{
+    int el = v[0];
+    int cnt = 1;
+    for (int i = 1; i < v.size(); i++)
+    {
+        if (cnt == 0)
+        {
+            el = v[i];
+        }
+
+        if (v[i] == el)
+        {
+            cnt++;
+        }
+        else
+        {
+            cnt--;
+        }
+    }
+
+    int cnt1 = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (v[i] == el)
+        {
+            cnt1++;
+        }
+    }
+    if (cnt1 > v.size() / 2)
+    {
+        return el;
+    }
+    return -1;
+}
+
+int MaximumSubarraySum(vector<int> v)
+{
+    int sum = 0;
+    int maxi = INT_MIN;
+    int start;
+    int end;
+    for (int i = 0; i < v.size(); i++)
+    {
+        sum += v[i];
+        if (sum < 0)
+        {
+            sum = 0;
+            start = i + 1;
+        }
+
+        if (sum > maxi)
+        {
+            end = i;
+        }
+        maxi = max(maxi, sum);
+    }
+
+    for (int i = start; i <= end; i++)
+    {
+        cout << v[i] << " ";
+    }
+    cout << endl;
+    return maxi;
+}
+
+vector<int> BuyandSellStock(vector<int> v)
+{
+    vector<int> ans;
+    int profit = INT_MIN;
+    int a = v[0];
+    int b;
+    for (int i = 1; i < v.size(); i++)
+    {
+        if (profit < v[i] - a)
+        {
+            profit = v[i] - a;
+            b = v[i];
+        }
+        a = min(v[i], a);
+    }
+    ans.push_back(a);
+    ans.push_back(b);
+    return ans;
+}
+
 int main()
 {
-    vector<int> v = {1, 2, 3, 1, 1, 1, 1, 2, 3};
-    int k = 6;
-    cout << LongestSubarrayWithSumK(v, k);
+    vector<int> v = {7, 1, 5, 3, 6, 4};
+    vector<int> ans = BuyandSellStock(v);
+    for (auto it : ans)
+    {
+        cout << it << " ";
+    }
 }
