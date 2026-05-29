@@ -392,12 +392,225 @@ vector<int> BuyandSellStock(vector<int> v)
     return ans;
 }
 
+void RearrangeElementsBySign(vector<int> &v)
+{
+    int left = 0;
+    int right = 1;
+    while (left < v.size() && right < v.size())
+    {
+        if (v[left] < 0 && v[right] > 0)
+        {
+            swap(v[left], v[right]);
+            left += 2;
+            right += 2;
+        }
+
+        else if (v[left] > 0)
+        {
+            left += 2;
+        }
+        else if (v[right] < 0)
+        {
+            right += 2;
+        }
+    }
+}
+
+void NextPermutation(vector<int> &v)
+{
+    int indx = -1;
+    for (int i = v.size() - 2; i >= 0; i--)
+    {
+        if (v[i] < v[i + 1])
+        {
+            indx = i;
+            break;
+        }
+    }
+
+    if (indx == -1)
+    {
+        reverse(v.begin(), v.end());
+    }
+    else
+    {
+        int mini = INT_MAX;
+        int indx2;
+        for (int i = indx + 1; i < v.size(); i++)
+        {
+            if (v[i] == 0)
+            {
+                continue;
+            }
+            else
+            {
+                mini = min(mini, v[i]);
+                indx2 = i;
+                swap(v[indx], v[indx2]);
+            }
+        }
+
+        sort(v.begin() + indx + 1, v.end());
+    }
+}
+
+vector<int> LeaderInArray(vector<int> v)
+{
+    vector<int> out;
+    int left = 0;
+    int right = 1;
+    while (left < v.size())
+    {
+        if (right >= v.size())
+        {
+            out.push_back(v[left]);
+            left++;
+            right = left + 1;
+            continue;
+        }
+        if (v[left] > v[right])
+        {
+            right++;
+        }
+
+        else
+        {
+            left++;
+            right = left + 1;
+        }
+    }
+    return out;
+}
+
+int LongestConsecutiveSequence(vector<int> v)
+{
+    sort(v.begin(), v.end());
+    int el = v[0];
+    int len = 1;
+    int maxlen = INT_MIN;
+    for (int i = 0; i < v.size() - 1; i++)
+    {
+        if (v[i] == v[i + 1])
+        {
+            continue;
+        }
+
+        else if (v[i] + 1 == v[i + 1])
+        {
+            len++;
+        }
+        else
+        {
+            el = v[i + 1];
+            len = 1;
+        }
+        maxlen = max(len, maxlen);
+    }
+    return maxlen;
+}
+
+void SetMatrixZero(vector<vector<int>> &v)
+{
+    vector<int> col(v[0].size(), 0);
+    vector<int> row(v.size(), 0);
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            if (v[i][j] == 0)
+            {
+                col[j] = 1;
+                row[i] = 1;
+            }
+        }
+    }
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            if (col[j] == 1 || row[i] == 1)
+            {
+                v[i][j] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            cout << v[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void RotateImage(vector<vector<int>> &v)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = i + 1; j < v.size(); j++)
+        {
+            swap(v[i][j], v[j][i]);
+        }
+    }
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        reverse(v[i].begin(), v[i].end());
+    }
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            cout << v[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void SpiralMatrix(vector<vector<int>> v)
+{
+    int left = 0;
+    int right = v[0].size() - 1;
+    int top = 0;
+    int bottom = v.size() - 1;
+
+    while (top <= bottom && left <= right)
+    {
+        for (int i = left; i <= right; i++)
+        {
+            cout << v[top][i] << " ";
+        }
+        top++;
+
+        for (int i = top; i <= bottom; i++)
+        {
+            cout << v[i][right] << " ";
+        }
+        right--;
+
+        for (int i = right; i >= left; i--)
+        {
+            cout << v[bottom][i] << " ";
+        }
+        bottom--;
+
+        for (int i = bottom; i >= top; i--)
+        {
+            cout << v[i][left] << " ";
+        }
+        left++;
+    }
+}
+
 int main()
 {
-    vector<int> v = {7, 1, 5, 3, 6, 4};
-    vector<int> ans = BuyandSellStock(v);
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
+    vector<vector<int>> v = {{1, 2, 3, 4},
+                             {12, 13, 14, 5},
+                             {11, 16, 15, 6},
+                             {10, 9, 8, 7}};
+    SpiralMatrix(v);
 }
