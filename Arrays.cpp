@@ -606,11 +606,133 @@ void SpiralMatrix(vector<vector<int>> v)
     }
 }
 
+void MajorityElementNby3(vector<int> v)
+{
+    vector<int> ans;
+    map<int, int> mpp;
+    for (int i = 0; i < v.size(); i++)
+    {
+        mpp[v[i]]++;
+    }
+
+    for (auto it : mpp)
+    {
+        if (it.second > v.size() / 3)
+        {
+            ans.push_back(it.first);
+        }
+    }
+
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i] << " ";
+    }
+}
+
+void ThreeSum(vector<int> v)
+{
+    sort(v.begin(), v.end());
+    set<vector<int>> st;
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (i > 0 && v[i] == v[i - 1])
+        {
+            continue;
+        }
+        int k = v.size() - 1;
+        for (int j = i + 1; j < v.size(); j++)
+        {
+            while (j < k)
+            {
+                int sum = v[i];
+                sum += v[j];
+                sum += v[k];
+                if (sum == 0)
+                {
+                    vector<int> temp = {v[i], v[j], v[k]};
+                    sort(temp.begin(), temp.end());
+                    st.insert(temp);
+                    j++;
+                    k--;
+                    while (j < k && v[j] == v[j - 1])
+                        j++;
+                    while (j < k && v[k] == v[k + 1])
+                        k--;
+                }
+                else if (sum > 0)
+                {
+                    k--;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+        }
+    }
+    vector<vector<int>> ans(st.begin(), st.end());
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void FourSum(vector<int> v, int target)
+{
+    sort(v.begin(), v.end());
+    set<vector<int>> st;
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (i > 0 && v[i] == v[i - 1])
+            continue;
+        for (int j = i + 1; j < v.size(); j++)
+        {
+
+            int k = j + 1;
+            int l = v.size() - 1;
+            while (k < l)
+            {
+                int sum = v[i];
+                sum += v[j];
+                sum += v[k];
+                sum += v[l];
+                if (sum == target)
+                {
+                    vector<int> temp = {v[i], v[j], v[k], v[l]};
+                    sort(temp.begin(), temp.end());
+                    st.insert(temp);
+                    k++;
+                    l--;
+                    while (k < l && v[k] == v[k - 1])
+                        k++;
+                    while (k < l && v[l] == v[l - 1])
+                        l--;
+                }
+                else if (sum > target)
+                    l--;
+                else
+                    k++;
+            }
+        }
+        vector<vector<int>> ans(st.begin(), st.end());
+        for (int i = 0; i < ans.size(); i++)
+        {
+            for (int j = 0; j < ans[i].size(); j++)
+            {
+                cout << ans[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+}
+
 int main()
 {
-    vector<vector<int>> v = {{1, 2, 3, 4},
-                             {12, 13, 14, 5},
-                             {11, 16, 15, 6},
-                             {10, 9, 8, 7}};
-    SpiralMatrix(v);
+    int target = 8;
+    vector<int> v = {1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5};
+    FourSum(v, target);
 }
