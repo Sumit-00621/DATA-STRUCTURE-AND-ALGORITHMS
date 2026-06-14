@@ -730,9 +730,129 @@ void FourSum(vector<int> v, int target)
     }
 }
 
-int main()
+void CountSubarrayWithXorK(vector<int> v, int k)
 {
-    int target = 8;
-    vector<int> v = {1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5};
-    FourSum(v, target);
+
+    int cnt = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        int xr = 0;
+        for (int j = i; j < v.size(); j++)
+        {
+            xr = xr ^ v[j];
+            if (xr == k)
+            {
+                cnt++;
+            }
+        }
+    }
+    cout << cnt;
+}
+
+void MergeOverlapingIntervals(vector<vector<int>> v)
+{
+    sort(v.begin(), v.end());
+    vector<vector<int>> ans;
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (ans.empty() || ans.back()[1] < v[i][0])
+        {
+            ans.push_back({v[i][0], v[i][1]});
+        }
+        else
+        {
+            ans.back()[1] = max(ans.back()[1], v[i][1]);
+        }
+    }
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void MergeTwoSortedArray(vector<int> a, vector<int> b)
+{
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+    int i = 0;
+    int j = 0;
+    while (j < b.size())
+    {
+        if (i >= a.size() || a[i] > b[j])
+        {
+            a.insert(a.begin() + i, b[j]);
+            j++;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    for (int i = 0; i < a.size(); i++)
+    {
+        cout << a[i] << " ";
+    }
+}
+
+void MissingAndRepeatedValue(vector<int> v)
+{
+    int dup = -1;
+    int mis = -1;
+    map<int, int> mpp;
+    for (int i = 0; i < v.size(); i++)
+    {
+        mpp[v[i]]++;
+    }
+    for (int i = 1; i <= v.size(); i++)
+    {
+        if (mpp[i] == 2)
+        {
+            dup = i;
+        }
+        if (mpp[i] == 0)
+        {
+            mis = i;
+        }
+    }
+    vector<int> ans = {dup, mis};
+    for (auto it : ans)
+    {
+        cout << it << " ";
+    }
+}
+
+void CountInversion(vector<int> v)
+{
+    int cnt = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = i + 1; j < v.size(); j++)
+        {
+            if (v[i] > v[j])
+            {
+                cnt++;
+            }
+        }
+    }
+    cout << cnt;
+}
+
+void ReversePair(vector<int> v)
+{
+    int cnt = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = i + 1; j < v.size(); j++)
+        {
+            if (v[i] > 2 * v[j])
+            {
+                cnt++;
+            }
+        }
+    }
+    cout << cnt;
 }
