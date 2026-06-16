@@ -173,9 +173,156 @@ void CountOccurenceInSortedArray(vector<int> v, int x)
     cout << cnt;
 }
 
+void SearchInRotatedSortedArrayI(vector<int> v, int x)
+{
+    int ans = -1;
+    int low = 0;
+    int high = v.size() - 1;
+    int mid = 0;
+    while (low <= high)
+    {
+        mid = (low + high) / 2;
+        if (v[mid] == x)
+        {
+            ans = mid;
+            break;
+        }
+
+        if (v[low] <= v[mid])
+        {
+            if (v[low] <= x && x < v[mid])
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        else
+        {
+            if (v[mid] < x && x <= v[high])
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+    }
+    cout << ans;
+}
+
+void SearchElementInRotatedSortedArrayII(vector<int> v, int x)
+{
+    bool ans = false;
+    int low = 0;
+    int high = v.size() - 1;
+    int mid = 0;
+    while (low <= high)
+    {
+        mid = (low + high) / 2;
+        if (v[mid] == x)
+        {
+            ans = true;
+            break;
+        }
+        if (v[low] == v[mid] && v[mid] == v[high])
+        {
+            low++;
+            high--;
+        }
+
+        if (v[low] <= v[mid])
+        {
+            if (v[low] <= x && x < v[mid])
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        else
+        {
+            if (v[mid] < x && x <= v[high])
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+    }
+    cout << ans;
+}
+
+void MinimumInRotatedArray(vector<int> v)
+{
+    int low = 0;
+    int high = v.size() - 1;
+    while (low < high)
+    {
+        int mid = (low + high) / 2;
+        if (v[mid] > v[high])
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid;
+        }
+    }
+    cout << v[low];
+}
+
+void FindHowManyTimesArrayRotated(vector<int> v)
+{
+    int low = 0;
+    int high = v.size() - 1;
+    while (low < high)
+    {
+        int mid = (low + high) / 2;
+        if (v[mid] > v[high])
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid;
+        }
+    }
+    cout << low;
+}
+
+void PeakElementInRotatedArray(vector<int> v)
+{
+    int low = 0;
+    int high = v.size() - 1;
+    while (low < high)
+    {
+        int mid = (low + high) / 2;
+        if (v[mid] > v[mid - 1] && v[mid] > v[mid + 1])
+        {
+            cout << mid;
+            break;
+        }
+        if (v[mid] > v[high])
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid;
+        }
+    }
+}
+
 int main()
 {
-    vector<int> v = {2, 2 , 3 , 3 , 3 , 3 , 4};
-    int x = 3;
-    CountOccurenceInSortedArray(v, x);
+    vector<int> v = {1, 2, 3, 4, 5, 6, 7, 8, 5, 1};
+    PeakElementInRotatedArray(v);
 }
