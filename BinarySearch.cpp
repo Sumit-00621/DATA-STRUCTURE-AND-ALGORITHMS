@@ -321,8 +321,98 @@ void PeakElementInRotatedArray(vector<int> v)
     }
 }
 
+void FindigSqrtOfNUmber(int x)
+{
+    int ans;
+    int low = 1;
+    int high = 36;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        if (x < 2)
+        {
+            ans = x;
+        }
+
+        if (mid * mid <= x)
+        {
+            ans = mid;
+            low = mid + 1;
+        }
+
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    cout << ans;
+}
+
+void nthRootOfNumber(int n, int x)
+{
+    int ans = -1;
+    int low = 1;
+    int high = 36;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        long long cube = 1;
+        for (int i = 0; i < n; i++)
+        {
+            cube *= mid;
+        }
+        if (cube == x)
+        {
+            ans = mid;
+            break;
+        }
+        if (cube < x)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    cout << ans;
+}
+
+void SmallestDivisor(vector<int> v, int limit)
+{
+    sort(v.begin(), v.end());
+    int ans;
+    int low = 1;
+    int high = v.size() - 1;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        if (v.size() > limit)
+        {
+            ans = -1;
+            return;
+        }
+        int div = 0;
+        for (int i = 0; i < v.size(); i++)
+        {
+            div += v[i] / mid;
+        }
+        if (div <= limit)
+        {
+            ans = v[mid];
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+    cout << ans;
+}
+
 int main()
 {
-    vector<int> v = {1, 2, 3, 4, 5, 6, 7, 8, 5, 1};
-    PeakElementInRotatedArray(v);
+    vector<int> v = {8, 4, 2, 3};
+    int n = 10;
+    SmallestDivisor(v, n);
 }
