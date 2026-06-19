@@ -410,9 +410,133 @@ void SmallestDivisor(vector<int> v, int limit)
     cout << ans;
 }
 
+void KokoEatingBanana(vector<int> nums, int x)
+{
+    int ans;
+    int low = 1;
+    int high = *max_element(nums.begin(), nums.end());
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int sum = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            sum += ceil((double)nums[i] / mid);
+        }
+        if (sum <= x)
+        {
+            ans = mid;
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+    cout << ans;
+}
+
+void MinimumDaysToMakeMBoquets(vector<int> nums, int m, int k)
+{
+    int out = -1;
+    int low = *min_element(nums.begin(), nums.end());
+    int high = *max_element(nums.begin(), nums.end());
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int cnt = 0;
+        int ans = 0;
+        if (nums.size() < (m * k))
+        {
+            out = -1;
+        }
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (nums[i] <= mid)
+            {
+                cnt++;
+            }
+            else
+            {
+                ans += cnt / k;
+                cnt = 0;
+            }
+        }
+        ans += cnt / k;
+        if (ans < m)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            out = mid;
+            high = mid - 1;
+        }
+    }
+    cout << out;
+}
+
+void CapacityToShipPackagesWithinDDays(vector<int> nums, int d)
+{
+    int out;
+    int low = *max_element(nums.begin(), nums.end());
+    int high = accumulate(nums.begin(), nums.end(), 0);
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int cnt = 0;
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (cnt + nums[i] <= mid)
+            {
+                cnt += nums[i];
+            }
+            else
+            {
+                ans++;
+                cnt = nums[i];
+            }
+        }
+        ans++;
+        if (ans <= d)
+        {
+            out = mid;
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+    cout << out;
+}
+
+void KthMissingPositiveNumber(vector<int> v, int k)
+{
+    int ans;
+    int low = 0;
+    int high = v.size() - 1;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int missing = v[mid] - (mid + 1);
+        if (missing < k)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    ans = low + k;
+    cout << ans;
+}
+
 int main()
 {
-    vector<int> v = {8, 4, 2, 3};
-    int n = 10;
-    SmallestDivisor(v, n);
+    vector<int> v = {4,7,9,10};
+    int d = 4;
+    KthMissingPositiveNumber(v, d);
 }
