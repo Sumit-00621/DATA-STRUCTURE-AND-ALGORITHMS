@@ -534,9 +534,81 @@ void KthMissingPositiveNumber(vector<int> v, int k)
     cout << ans;
 }
 
+void AggressiveCow(vector<int> nums, int cows)
+{
+    sort(nums.begin(), nums.end());
+    int maxi = *max_element(nums.begin(), nums.end());
+    int mini = *min_element(nums.begin(), nums.end());
+    for (int i = 1; i <= maxi - mini; i++)
+    {
+        bool ans;
+        int cnt = 1;
+        int last = nums[0];
+        for (int j = 1; j < nums.size(); j++)
+        {
+            if (nums[j] - last >= i)
+            {
+                cnt++;
+                last = nums[j];
+            }
+        }
+        if (cnt >= cows)
+        {
+            ans = true;
+        }
+        else
+        {
+            ans = false;
+        }
+        if (ans == true)
+        {
+            continue;
+        }
+        else
+        {
+            cout << i - 1;
+            return;
+        }
+    }
+    cout << maxi - mini;
+}
+
+void SplitArrayLargestSum(vector<int> v, int k)
+{
+    int low = *max_element(v.begin(), v.end());
+    int high = accumulate(v.begin(), v.end(), 0);
+    for (int i = low; i <= high; i++)
+    {
+        int cnt = 1;
+        int sum = 0;
+        int last = v[0];
+        for (int j = 1; j < v.size(); j++)
+        {
+            if (last + v[j] > i)
+            {
+                cnt++;
+                last = v[j];
+            }
+            else
+            {
+                last += v[j];
+            }
+        }
+        if (cnt > k)
+        {
+            continue;
+        }
+        else
+        {
+            cout << i;
+            break;
+        }
+    }
+}
+
 int main()
 {
-    vector<int> v = {4,7,9,10};
-    int d = 4;
-    KthMissingPositiveNumber(v, d);
+    vector<int> v = {3, 5, 1};
+    int d = 3;
+    SplitArrayLargestSum(v, d);
 }
